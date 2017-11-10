@@ -1,0 +1,17 @@
+@import 'partials/partial';
+
+h1, h2, h3 {
+    font-family: sans-serif;
+}
+
+.red {
+    color: $my-red;
+}
+
+.green {
+    color: $my-green;
+}
+
+.blue {
+    color: $my-blue;
+}
