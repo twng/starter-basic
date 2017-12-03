@@ -40,7 +40,7 @@ Del
 Run Sequence
 
 NOTE! Eslint may require the package 'ajv' to be installed manually:
-npm install ajv --save-dev
+`npm install ajv --save-dev`
 
 Project Dependencies
 --------------------
@@ -52,12 +52,13 @@ npm uninstall jquery normalize.css
 Javascript
 ==========
 
-NOTE!
-Now using babel to compile the Javascript so that we can use ES6 code.
+Note we are now using babel to compile the Javascript so that we can use ES6 code.
 The challenge here is that while in theory ES6 is backwards compatible, in practice sometimes older javascript libraries don't seem to work properly when Babel compiles them.
 
 You can tell babel to ignore/not parse certain files by passing an ignore option to babel in the gulpfile.
 
-Unfortunately Useref concatenates files within build blocks before piping to babel.
-If a non ES6 script is broken by babel, you will need to create another build block in the html containing the offending file, and then use the ignore option in the gulp task.
-In this setup we are separating vendor scripts and telling babel to ignore them. If the vendor scripts are Babel-friendly, feel free to move them into a single build block. If more control is needed, please look at using starter-site or gulp-webpack instead.
+Unfortunately Useref concatenates files within build blocks before piping to babel. If a non-ES6 script (eg. an old javascript lib) is broken by the babel compiler, you will need to create another build block in the html containing the offending file, and then use the ignore option in the gulp task.
+
+In this setup we are separating vendor scripts and telling babel to ignore them. If the vendor scripts are Babel-friendly, feel free to move them into a single build block.
+
+If more control is needed, please look at using starter-site or gulp-webpack instead.
