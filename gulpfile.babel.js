@@ -1,48 +1,56 @@
 /* eslint-env node */
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var browserSync = require('browser-sync').create();
-var eslint = require('gulp-eslint');
-var gulpif = require('gulp-if');
-var useref = require('gulp-useref');
-var runSequence = require('run-sequence');
-var uglify = require('gulp-uglify');
-var cssnano = require('gulp-cssnano');
-var del = require('del');
-var imagemin = require('gulp-imagemin');
-var cache = require('gulp-cache');
+import gulp from 'gulp';
+import sass from 'gulp-sass';
+import browserSync from 'browser-sync';
+import eslint from 'gulp-eslint';
+import gulpif from 'gulp-if';
+import useref from 'gulp-useref';
+import runSequence from 'run-sequence';
+import uglify from 'gulp-uglify';
+import cssnano from 'gulp-cssnano';
+import del from 'del';
+import imagemin from 'gulp-imagemin';
+import cache from 'gulp-cache';
+import babel from 'gulp-babel';
+
+const debug = require('gulp-debug');
 
 
-gulp.task('sass', function() {
+gulp.task('sass', () => {
     return gulp.src("./src/scss/*.scss") // dont include partials directory
         .pipe(sass())
         .pipe(gulp.dest("./src/assets/css"))
         .pipe(browserSync.stream());
 });
 
-gulp.task('eslint', function() {
+gulp.task('eslint', () => {
     return gulp.src("./src/js/**/*.js")
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('images', function() {
+gulp.task('images', () => {
     return gulp.src('./src/assets/img/**/*.+(png|jpg|jpeg|gif|svg)')
       // Caching images that ran through imagemin
       .pipe(cache(imagemin()))
       .pipe(gulp.dest('./dist/assets/img'))
 })
 
-gulp.task('useref', function() {
+gulp.task('useref', () => {
     return gulp.src('./src/*.html')
       .pipe(useref())
+      .pipe(debug({title: 'useref files'}))
+      .pipe(gulpif('*.js', babel({
+            presets: ['env'],
+            ignore: ['src/assets/js/vendors.min.js']
+        })))
       .pipe(gulpif('*.js', uglify()))
       .pipe(gulpif('*.css', cssnano()))
       .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('serve', ['sass'], function() {
+gulp.task('serve', ['sass'], () => {
     browserSync.init({
         server: {
             baseDir : ["./src"],
@@ -55,19 +63,19 @@ gulp.task('serve', ['sass'], function() {
 });
 
 // Clean output directories
-gulp.task('clean', function() {
+gulp.task('clean', () => {
     return del(["./dist/**/*"], {dot: false});
 });
 
 // Copy all other assets
-gulp.task('copy', function() {
+gulp.task('copy', () => {
     // copies everything in assets folder except for css, js and images
     return gulp.src(['./src/assets/**/*', '!./src/assets/{css,js,img}/**/*'])
         .pipe(gulp.dest('./dist/assets'));
 
 });
 
-gulp.task('default', ['serve'], function() {
+gulp.task('default', ['serve'], () => {
     // watch files
     gulp.watch("src/scss/**/*.scss", ['sass']);
     gulp.watch("src/js/**/*.js", browserSync.reload);
@@ -77,14 +85,14 @@ gulp.task('default', ['serve'], function() {
 });
 
 
-gulp.task('build', function(callback) {
+gulp.task('build', (callback) => {
     runSequence('clean', 'sass', 'eslint', ['useref', 'images', 'copy'], callback);
 });
 
-gulp.task('serve:dist', function() {
+gulp.task('serve:dist', () => {
     browserSync.init({
         server: {
-            baseDir : ["./dist"]            
+            baseDir : ["./dist"]
         },
         browser: ["firefox"]
     });

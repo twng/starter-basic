@@ -13,14 +13,16 @@
         <!-- endbuild -->
     </head>
     <body>
-        <h1 class="red">Single page web app</h1>
-        <h3 class="blue">with Gulp build process</h3>
-        <p>Gulp is great it not?!</p>
+        <h1>starter-basic</h1>
+        <h3>Gulp-based starter kit for a basic web page.</h3>
 
-
-        <!-- build:js assets/js/bundle.min.js -->
+        <!-- build:js assets/js/vendors.min.js -->
         <script src="../node_modules/jquery/dist/jquery.js"></script>
+        <!-- endbuild -->
+
+        <!-- build:js assets/js/bundle.min.js -->        
         <script src="./js/app.js"></script>
         <!-- endbuild -->
+
     </body>
 </html>

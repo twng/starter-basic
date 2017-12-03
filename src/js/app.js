@@ -1,8 +1,12 @@
 /* global $:false */
-console.log("app.js loaded");
+const app_msg = "app.js loaded";
+const jquery_msg = "jquery has been loaded";
+const arrowfunc = (msg) => {
+    console.log(msg);
+}
+console.log(app_msg);
 
 // jquery document is ready
 $(function() {
-     console.log('jquery has been loaded');
-     // another comment
+    arrowfunc(jquery_msg);
 });
