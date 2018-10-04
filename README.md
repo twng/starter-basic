@@ -24,7 +24,7 @@ To build the production version, run the build script:
 
     npm run build
 
-All styles and scripts are concatenated and minified to styles.min.css and bundle.min.js respectively. Destination path and filename are set in the build comments in the HTML.
+All styles and scripts are concatenated and minified to styles.min.css and bundle.min.js respectively. Destination path and filename are set in the build block comments in the HTML.
 
 To clean the build folder, run:
 
